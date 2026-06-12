@@ -1,0 +1,100 @@
+MySQL Assignment 1
+
+
+Q1)
+
+mysql> show databases;
+
+Q2)
+
+mysql> create table countries(
+    -> country_id int,
+    -> country_name varchar(30),
+    -> region_id int );
+
+mysql> desc countries;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| country_id   | int         | YES  |     | NULL    |       |
+| country_name | varchar(30) | YES  |     | NULL    |       |
+| region_id    | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+Q3) 
+
+mysql> create table jobs(
+    -> job_id int primary key,
+    -> job_title varchar(30) not null,
+    -> min_salary decimal(7,2),
+    -> max_salary decimal(7,2) check (max_salary <= 25000)
+    -> );
+
+Q4)
+
+mysql> create table job_history(
+    -> employee_id int,
+    -> start_date date,
+    -> end_date date,
+    -> job_id int,
+    -> department_id int
+    -> );
+
+Q5)
+
+mysql> alter table countries
+    -> modify column country_id int unique;
+
+Q6)
+
+mysql> create table jobs_default(
+    -> job_id int,
+    -> job_title varchar(30) default '',
+    -> min_salary decimal(7,2) default 8000,
+    -> max_salary decimal(7,2) default null
+    -> );
+
+Q7)
+
+mysql> create table departments(
+    -> department_id decimal(4,0),
+    -> department_name varchar(30) not null,
+    -> manager_id decimal(6,0),
+    -> location_id decimal(4,0),
+    -> primary key (department_id, manager_id)
+    -> );
+
+Q8)
+
+mysql> create table employees(
+    -> employee_id int primary key,
+    -> first_name varchar(50),
+    -> last_name varchar(50),
+    -> email varchar(100),
+    -> phone_number varchar(20),
+    -> hire_date date,
+    -> job_id int,
+    -> salary decimal(10,2),
+    -> commission decimal(10,2),
+    -> manager_id int,
+    -> department_id int,
+    -> foreign key(department_id)
+    -> references departments(department_id)
+    -> );
+
+Q9)
+
+step 1:
+
+mysql> create table department_managers(
+    -> department_id decimal(4,0),
+    -> manager_id decimal(6,0),
+    -> manager_name varchar(50) not null,
+    -> primary key (department_id, manager_id)
+    -> );
+
+step 2:
+
+mysql> alter table employees
+    -> add foreign key(department_id, manager_id)
+    -> references department_managers(department_id, manager_id);
