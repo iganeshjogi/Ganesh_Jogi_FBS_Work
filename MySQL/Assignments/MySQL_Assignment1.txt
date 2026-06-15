@@ -1,0 +1,170 @@
+MySQL Assignment 1
+
+
+Q1) Display Databases 
+Login to MySQL and write a query to display all databases already present in the system.
+
+Ans:
+mysql> show databases;
+
+
+Q2) Create countries Table 
+Write an SQL query to create a table named countries including columns country_id, 
+country_name and region_id. 
+After this display the structure of table. 
+
+Ans:
+mysql> create table countries(
+    -> country_id int,
+    -> country_name varchar(30),
+    -> region_id int );
+
+mysql> desc countries;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| country_id   | int         | YES  |     | NULL    |       |
+| country_name | varchar(30) | YES  |     | NULL    |       |
+| region_id    | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+Q3) Create jobs Table with Constraints 
+Write an SQL query to create a table named jobs including columns job_id, job_title, 
+min_salary, max_salary. 
+Apply constraints: - job_id must be Primary Key - job_title cannot be NULL - max_salary must not exceed 25000 
+
+Ans:
+mysql> create table jobs(
+    -> job_id int primary key,
+    -> job_title varchar(30) not null,
+    -> min_salary decimal(7,2),
+    -> max_salary decimal(7,2) check (max_salary <= 25000)
+    -> );
+
+
+Q4) Create job_history Table 
+Write an SQL query to create a table named job_history including columns employee_id, 
+start_date, end_date, job_id and department_id. 
+
+Ans:
+mysql> create table job_history(
+    -> employee_id int,
+    -> start_date date,
+    -> end_date date,
+    -> job_id int,
+    -> department_id int
+    -> );
+
+
+Q5) Add UNIQUE Constraint 
+Alter the countries table so that duplicate values in country_id are not allowed during insertion.
+
+Ans:
+mysql> alter table countries
+    -> modify column country_id int unique;
+
+
+Q6) Create jobs_default Table with DEFAULT Values 
+Write an SQL query to create a table named jobs_default including columns job_id, job_title, 
+min_salary and max_salary. 
+Set default values: - job_title default should be blank (“”) - min_salary default should be 8000 - max_salary default should be NULL 
+
+Ans:
+mysql> create table jobs_default(
+    -> job_id int,
+    -> job_title varchar(30) default '',
+    -> min_salary decimal(7,2) default 8000,
+    -> max_salary decimal(7,2) default null
+    -> );
+
+
+Q7) Create departments Table (Composite Primary Key) 
+Create Department table with following structure: 
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| department_id   | decimal(4,0) | NO   | PRI | NULL    |       |
+| department_name | varchar(30)  | NO   |     | NULL    |       |
+| manager_id      | decimal(6,0) | NO   | PRI | NULL    |       |
+| location_id     | decimal(4,0) | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+
+Ans:
+mysql> create table departments(
+    -> department_id decimal(4,0),
+    -> department_name varchar(30) not null,
+    -> manager_id decimal(6,0),
+    -> location_id decimal(4,0),
+    -> primary key (department_id, manager_id)
+    -> );
+
+
+Q8) Create employees Table with Normal Foreign Key 
+Write an SQL query to create a table named employees including columns: 
+employee_id, first_name, last_name, email, phone_number, hire_date, job_id, 
+salary, commission, manager_id and department_id.
+Apply constraints: - employee_id must be Primary Key - department_id must be a Foreign Key referencing departments(department_id) 
++---------------+---------------+
+| Field         | Type          |
++---------------+---------------+
+| employee_id   | int           |
+| first_name    | varchar(50)   |
+| last_name     | varchar(50)   |
+| email         | varchar(100)  |
+| phone_number  | varchar(20)   |
+| hire_date     | date          |
+| job_id        | int           |
+| salary        | decimal(10,2) |
+| commission    | decimal(10,2) |
+| manager_id    | int           |
+| department_id | int           |
++---------------+---------------+
+
+Ans:
+mysql> create table employees(
+    -> employee_id int primary key,
+    -> first_name varchar(50),
+    -> last_name varchar(50),
+    -> email varchar(100),
+    -> phone_number varchar(20),
+    -> hire_date date,
+    -> job_id int,
+    -> salary decimal(10,2),
+    -> commission decimal(10,2),
+    -> manager_id int,
+    -> department_id int,
+    -> foreign key(department_id)
+    -> references departments(department_id)
+    -> );
+
+
+Q9) Composite Foreign Key Implementation 
+
+Step 1: Create department_managers Table 
+Create a table named department_managers with following structure:
++---------------+--------------+------+-----+
+| Field         | Type         | Null | Key |
++---------------+--------------+------+-----+
+| department_id | decimal(4,0) | NO   | PRI |
+| manager_id    | decimal(6,0) | NO   | PRI |
+| manager_name  | varchar(50)  | NO   |     |
++---------------+--------------+------+-----+
+
+Ans:
+mysql> create table department_managers(
+    -> department_id decimal(4,0),
+    -> manager_id decimal(6,0),
+    -> manager_name varchar(50) not null,
+    -> primary key (department_id, manager_id)
+    -> );
+
+
+step 2: Apply Composite Foreign Key in employees Table 
+Alter the employees table so that the combination (department_id, manager_id) 
+must exist in department_managers(department_id, manager_id).
+
+Ans:
+mysql> alter table employees
+    -> add foreign key(department_id, manager_id)
+    -> references department_managers(department_id, manager_id);
