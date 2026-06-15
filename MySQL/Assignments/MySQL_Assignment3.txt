@@ -1,0 +1,153 @@
+MySQL Assignment 3
+
+Reference Tables:
+
+Employees table
++-------------+------------+-----------+--------+----------+------------+---------------+
+| Employee_id | first_name | last_name | job_id | salary   | manager_id | department_id |
++-------------+------------+-----------+--------+----------+------------+---------------+
+|         100 | Steven     | King      |      1 | 24000.00 |        200 |            10 |
+|         101 | Neena      | Kochhar   |      2 | 17000.00 |        200 |            10 |
+|         102 | Lex        | De Haan   |      2 | 17000.00 |        200 |            10 |
+|         103 | Alexander  | Hunold    |      3 |  9000.00 |        103 |            60 |
+|         104 | Bruce      | Ernst     |      3 |  6000.00 |        103 |            60 |
+|         105 | David      | Austin    |      3 |  4800.00 |        103 |            60 |
+|         106 | Valli      | Pataballa |      3 |  4800.00 |        103 |            60 |
+|         107 | Diana      | Lorentz   |      3 |  4200.00 |        114 |            30 |
+|         108 | Nancy      | Greenberg |      4 | 12000.00 |        145 |            80 |
+|         109 | Daniel     | Faviet    |      4 |  9000.00 |        145 |            80 |
++-------------+------------+-----------+--------+----------+------------+---------------+
+
+Departments table
++---------------+-----------------+------------+-------------+
+| department_id | department_name | manager_id | location_id |
++---------------+-----------------+------------+-------------+
+|            10 | Administration  |        200 |        1700 |
+|            20 | Marketing       |        201 |        1800 |
+|            30 | Purchasing      |        114 |        1700 |
+|            60 | IT              |        103 |        1400 |
+|            80 | Sales           |        145 |        2500 |
++---------------+-----------------+------------+-------------+
+
+Jobs table
++--------+-------------------------------+------------+------------+
+| job_id | job_title                     | min_salary | max_salary |
++--------+-------------------------------+------------+------------+
+|      1 | President                     |      20000 |      40000 |
+|      2 | Administration Vice President |      15000 |      30000 |
+|      3 | Programmer                    |       4000 |      10000 |
+|      4 | Sales Manager                 |      10000 |      20000 |
++--------+-------------------------------+------------+------------+
+
+Q1) Write an SQL query to insert the above employee records into the EMPLOYEES table.
+
+Ans:
+mysql> insert into employees values
+    -> (100, 'Steven', 'King', 1, 24000.00, 200, 10),
+    -> (101, 'Neena', 'Kochhar', 2, 17000.00, 200, 10),
+    -> (102, 'Lex', 'De Haan', 2, 17000.00, 200, 10),
+    -> (103, 'Alexander', 'Hunold', 3, 9000.00, 103, 60),
+    -> (104, 'Bruce', 'Ernst', 3, 6000.00, 103, 60),
+    -> (105, 'David', 'Austin', 3, 4800.00, 103, 60),
+    -> (106, 'Valli', 'Pataballa', 3, 4800.00, 103, 60),
+    -> (107, 'Diana', 'Lorentz', 3, 4200.00, 114, 30),
+    -> (108, 'Nancy', 'Greenberg', 4, 12000.00, 145, 80),
+    -> (109, 'Daniel', 'Faviet', 4, 9000.00, 145, 80);
+
+
+Q2) Write a single SQL INSERT statement to insert at least 3 department records into the 
+DEPARTMENTS table.
+
+Ans:
+mysql> insert into departments values
+    -> (10, 'Administration', 200, 1700),
+    -> (20, 'Marketing', 201, 1800),
+    -> (30, 'Purchasing',114, 1700),
+    -> (60, 'IT', 103, 1400),
+    -> (80, 'Sales', 145, 2500);
+
+
+Q3) Write an SQL query to insert one new job record into the JOBS table ensuring duplicate 
+JOB_ID is not allowed.
+
+Ans:
+mysql> insert into jobs values
+    -> (5, 'Data Engineer', 25000, 50000);
+
+
+Q4) Write an SQL query to increment the salary of each employee by 10%
+
+Ans:
+mysql> update employees
+    -> set salary = salary + (salary * 0.1);
+
+
+Q5) Write an SQL query to set EMAIL = 'not available' for employees whose department_id is 
+80 and commission_pct is less than 0.20.
+
+Ans:
+mysql> UPDATE employees
+    -> SET email = 'not available'
+    -> where department_id = 80 and commission_pct < 0.20;
+
+
+Q6) Write an SQL query to set EMAIL = 'not available' for employees who belong to the 
+'Purchasing' department. 
+
+Ans:
+mysql> UPDATE employees
+    -> SET email = 'not available'
+    -> where department_id = (
+    -> select department_id
+    -> from departments
+    -> where department_name = 'Purchasing' );
+
+
+Q7) Write an SQL query to update EMAIL = 'not available' and COMMISSION_PCT = 0.10 for 
+all employees.
+
+Ans:
+mysql> update employees
+    -> set email = 'not available', commission_pct = 0.10;
+
+
+Q8) Write an SQL query to increase salary by 2000 for employees working in department_id = 
+60.
+
+Ans:
+mysql> update employees
+    -> set salary = salary + 2000
+    -> where department_id = 60;
+
+
+Q9) Write an SQL query to delete employees whose salary is less than 5000.
+
+Ans:
+mysql> delete from employees
+    -> where salary < 5000;
+
+
+Q10) Write an SQL query to insert one new employee record with your own suitable details (use 
+a new employee_id).
+
+Ans:
+mysql> insert into employees values
+    -> (110, 'Tony', 'Stark', 1, 50000, 114, 30, 'Tony@ironman.com', 0.10);
+
+
+Q11) Write an SQL query to change manager_id to 300 for all employees in department_id = 80. 
+
+Ans:
+mysql> update employees
+    -> set manager_id = 300
+    -> where department_id = 80;
+
+
+Q12) Write an SQL query to delete the department record where department_id = 20 and observe 
+the error if employees exist in that department.
+
+Ans:
+mysql> delete from departments
+    -> where department_id = 20;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`assignment3`.`employees`, CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`))
+
