@@ -1,0 +1,235 @@
+MySQL Assignment 4
+
+References table:
+
+Table employees
++-------------+------------+-----------+--------+----------+------------+---------------+--------------------+----------------+------------+
+| employee_id | first_name | last_name | job_id | salary   | manager_id | department_id | email              | commission_pct | hire_date  |
++-------------+------------+-----------+--------+----------+------------+---------------+--------------------+----------------+------------+
+|         100 | Steven     | King      |      1 | 24000.00 |        200 |            10 | steven@company.com |           0.15 | 1987-06-17 |
+|         101 | Neena      | Kochhar   |      2 | 17000.00 |        200 |            10 | neena@company.com  |           0.10 | 1987-09-21 |
+|         102 | Lex        | De Haan   |      2 | 17000.00 |        200 |            10 | lex@company.com    |           0.12 | 1988-01-13 |
+|         103 | Alexander  | Hunold    |      3 |  9000.00 |        103 |            60 | alex@company.com   |           0.08 | 1987-11-03 |
+|         104 | Bruce      | Ernst     |      3 |  6000.00 |        103 |            60 | bruce@company.com  |           0.05 | 1989-05-14 |
+|         105 | David      | Austin    |      3 |  4800.00 |        103 |            60 | david@company.com  |           0.07 | 1990-08-20 |
+|         106 | Valli      | Pataballa |      3 |  4800.00 |        103 |            60 | valli@company.com  |           0.09 | 1987-12-01 |
+|         107 | Diana      | Lorentz   |      6 |  4200.00 |        114 |            30 | diana@company.com  |           0.10 | 1991-04-10 |
+|         108 | Nancy      | Greenberg |      4 | 12000.00 |        145 |            80 | nancy@company.com  |           0.15 | 1988-07-18 |
+|         109 | Daniel     | Faviet    |      4 |  9000.00 |        145 |            80 | daniel@company.com |           0.18 | 1987-03-25 |
+|         110 | Tony       | Stark     |      5 | 50000.00 |        114 |            30 | tony@ironman.com   |           0.10 | 1992-06-15 |
++-------------+------------+-----------+--------+----------+------------+---------------+--------------------+----------------+------------+
+
+Table departments
++---------------+-----------------+------------+-------------+
+| department_id | department_name | manager_id | location_id |
++---------------+-----------------+------------+-------------+
+|            10 | Administration  |        200 |        1700 |
+|            20 | Marketing       |        201 |        1800 |
+|            30 | Purchasing      |        114 |        1700 |
+|            60 | IT              |        103 |        1400 |
+|            80 | Sales           |        145 |        2500 |
+|           100 | Finance         |        108 |        1700 |
++---------------+-----------------+------------+-------------+
+
+Table Jobs
++--------+-------------------------------+------------+------------+
+| job_id | job_title                     | min_salary | max_salary |
++--------+-------------------------------+------------+------------+
+|      1 | President                     |      20000 |      40000 |
+|      2 | Administration Vice President |      15000 |      30000 |
+|      3 | Programmer                    |       4000 |      10000 |
+|      4 | Sales Manager                 |      10000 |      20000 |
+|      5 | Data Engineer                 |      25000 |      50000 |
+|      6 | Shipping Clerk                |       2500 |       8000 |
++--------+-------------------------------+------------+------------+
+
+
+Q1) Write an SQL query to display employee first_name and last_name with suitable column 
+aliases.
+
+Ans:
+mysql> select first_name as 'First Name', last_name as 'Last Name'
+    -> from employees;
+
+
+Q2) Write an SQL query to display all different department IDs available in the EMPLOYEES 
+table.
+
+Ans:
+mysql> select distinct department_id
+    -> from employees;
+
+
+Q3) Write an SQL query to display all employee details sorted by first_name in descending 
+order. 
+
+Ans:
+mysql> select *
+    -> from employees
+    -> order by first_name desc;
+
+
+Q4) Write an SQL query to display first_name, last_name, salary, and PF for all employees. 
+(PF is calculated as 15% of salary.)
+
+Ans:
+mysql> select first_name, last_name, salary, salary * 0.15 as 'PF'
+    -> from employees;
+
+
+Q5) Write an SQL query to display employee_id, employee names, and salary sorted in 
+increasing order of salary.
+
+Ans:
+mysql> select employee_id, First_name, last_name, salary
+    -> from employees
+    -> order by salary;
+
+
+Q6) Write an SQL query to display the total salary payable to all employees. 
+
+Ans:
+mysql> select sum(salary) as 'Total Salary'
+    -> from employees;
+
+
+Q7) Write an SQL query to display the highest salary and the lowest salary from the 
+EMPLOYEES table.
+
+Ans:
+mysql> select max(salary) as 'Highest Salary', min(salary) as 'Lowest Salary'
+    -> from employees;
+
+
+Q8) Write an SQL query to display the average salary and the total number of employees.
+
+Ans:
+mysql> select count(employee_id) as 'Total Employees', avg(salary) as 'Average Salary'
+    -> from employees;
+
+
+Q9) Write an SQL query to display the total number of employees working in the company. 
+
+Ans:
+mysql> select count(employee_id) as 'Total Employees'
+    -> from employees;
+
+
+Q10) Write an SQL query to display the number of different job roles available in the 
+EMPLOYEES table. 
+
+Ans:
+mysql> select count(distinct job_id) as 'No. of different jobs'
+    -> from employees;
+
+
+Q11) Write an SQL query to display the first 10 employee records from the EMPLOYEES table. 
+
+Ans:
+mysql> select *
+    -> from employees
+    -> order by employee_id
+    -> limit 10;
+
+
+Q12) Write an SQL query to display employee names and salary for employees whose salary is 
+less than 10000 or greater than 15000. 
+
+Ans:
+mysql> select First_name, last_name, salary
+    -> from employees
+    -> where salary  < 10000 or salary > 15000;
+
+
+Q13) Write an SQL query to display employee names and department_id for employees working 
+in department 30 and department 100. 
+Sort the result by department_id.
+
+Ans:
+mysql> select First_name, last_name, department_id
+    -> from employees
+    -> where department_id in(30,100)
+    -> order by department_id;
+
+
+Q14) Write an SQL query to display employee names and salary for employees working in 
+department 30 or 100, 
+whose salary is outside the range 10000 to 15000.
+
+Ans:
+mysql> select First_name, last_name, salary
+    -> from employees
+    -> where department_id in(30,100) and salary not between 10000 and 150000;
+
+
+Q15) Write an SQL query to display employee names and hire_date for employees who were 
+hired in the year 1987. 
+
+Ans:
+mysql> select First_name, last_name, hire_date
+    -> from employees
+    -> where year(hire_date) = '1987' ;
+
+
+Q16) Write an SQL query to display first_name of employees whose first_name contains both 
+letters 'b' and 'c'. 
+
+Ans:
+mysql> select First_name
+    -> from employees
+    -> where first_name like '%b%' and
+    -> first_name like '%c%' ;
+
+
+Q17) Write an SQL query to display last_name, job role, and salary for employees who work as 
+Programmer or Shipping Clerk, 
+and whose salary is not equal to 4500, 10000, or 15000.
+
+Ans:
+mysql> select e.last_name,
+    -> j.job_title,
+    -> e.salary
+    -> from employees as e
+    -> join jobs as j
+    -> on e.job_id = j.job_id
+    -> where j.job_title in('programmer','shipping clerk')
+    -> and e.salary not in('4500','10000','15000')
+    -> ;
+
+
+Q18) Write an SQL query to display last_name of employees who’s last_name contains exactly 6 
+characters. 
+
+Ans:
+mysql> select last_name
+    -> from employees
+    -> where last_name like '______';
+
+
+Q19) Write an SQL query to display last_name of employees having 'e' as the third character in 
+their last_name. 
+
+Ans:
+mysql> select last_name
+    -> from employees
+    -> where last_name like '__e%';
+
+
+Q20) Write an SQL query to display all different job roles/designations available in the 
+EMPLOYEES table.
+
+Ans:
+mysql> SELECT DISTINCT j.job_title
+    -> FROM employees e
+    -> inner JOIN jobs j
+    -> ON e.job_id = j.job_id;
+
+
+Q21) Write an SQL query to display employee details for employees who’s last_name is 
+BLAKE, SCOTT, KING, or FORD. 
+
+Ans:
+mysql> select last_name
+    -> from employees
+    -> where last_name in('BLAKE','SCOTT','KING','FORD');
+
