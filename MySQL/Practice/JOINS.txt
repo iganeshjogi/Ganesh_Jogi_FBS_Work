@@ -1,0 +1,447 @@
+JOINS QUERIES:
+
+Q1) Display Employee Name and Job Title.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title as 'Job Title'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id ;
+
+
+Q2) Display Employee Name, Salary and Job Title.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', e.salary as 'salary', j.job_title as 'job title'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> ;
+
+
+Q3) Display employees working as Programmer.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where j.job_title in('programmer');
+
+Q4) Display employees working as Manager.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where j.job_title in('Manager');
+
+
+Q5) Display employees whose salary is greater than 30000 along with Job Title.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title as 'Job title'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where e.salary > 30000;
+
+Q6) Display Employee Name, Job Title, Min Salary and Max Salary.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title as 'Job title',
+    -> j.min_salary as 'Minimum Salary', j.max_salary as 'Maximum Salary'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id ;
+
+Q7) Display Job Title and count of employees in each job.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title',count(e.employee_id) as 'Total Count'
+    -> from jobs as j inner join employees as e
+    -> on j.job_id = e.job_id
+    -> group by j.job_title ;
+
+Q8) Display Job Title and average salary of employees.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title',avg(e.salary) as 'Average Salary'
+    -> from jobs as j inner join employees as e
+    -> on j.job_id = e.job_id
+    -> group by j.job_title ;
+
+Q9) Display Employee Name and Job Title of employee having highest salary.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title as 'Job title'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> order by salary desc
+    -> limit 1;
+
+Q10) Display Employee Name and Job Title of employee having lowest salary.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title as 'Job title'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> order by salary asc
+    -> limit 1;
+
+Q11) Display all employees whose salary is greater than the average salary along with Job Title.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.last_name) as 'Employee Name', j.job_title as 'Job title'
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where e.salary > (select avg(salary) from employees);
+
+Q12) Display all employees hired after 2024 with Job Title.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name),j.job_title
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where year(hire_date) > 2024;
+
+Q13) Display employees whose salary is greater than job's minimum salary.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name)
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where e.salary >  j.min_salary;
+
+Q14) Display employees whose salary is less than job's maximum salary.
+
+Ans: 
+
+mysql> select concat(e.first_name,' ',e.Last_name)
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> where e.salary <  j.max_salary;
+
+Q15) Display employee names and job titles ordered by salary descending.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name),j.job_title as 'Job Titles',e.salary
+    -> from employees as e inner join jobs as j
+    -> on e.job_id = j.job_id
+    -> order by e.salary asc;
+
+Q16) Display all employees and their job titles.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name),j.job_title as 'Job Titles'
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id ;
+
+Q17) Display all employees even if no job is assigned.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name),j.job_title as 'Job Titles'
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id ;
+
+Q18) Display employees whose job information is missing.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name)
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id
+    -> where j.job_title s null;
+
+Q19) Display employee names and job titles where job title is NULL.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name), j.job_title
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id
+    -> where j.job_title is null;
+
+Q20) Count total employees including employees without jobs.
+
+Ans:
+
+mysql> select count(employee_id) as 'Employee Count'
+    -> from employees;
+
+Q21) Display employees and salary along with job title using LEFT JOIN.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name),e.salary as 'salary', j.job_title
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id ;
+
+Q22) Display employees who do not have matching job records.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name)
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id
+    -> where job_title is null;
+
+Q23) Display employee names and job titles sorted by employee name.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name) as 'Employee Name', j.job_title as 'Job Title'
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id
+    -> order by e.first_name ;
+
+
+Q24) Display employees with salary greater than 25000 and their job titles.
+
+Ans:
+
+mysql> select concat(e.first_name,' ',e.Last_name) as 'Employee Name', e.salary as 'Salary', j.job_title as 'Job Title'
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id
+    -> where e.salary > 25000;
+
+
+Q25) Display all employee records and job information.
+
+Ans:
+
+mysql> select *
+    -> from employees as e left join jobs as j
+    -> on e.job_id = j.job_id;
+
+Q26) Display all jobs and employees assigned to them.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title',concat(e.first_name,' ',e.last_name) as 'Employee Name'
+    -> from jobs as j right join employees as e
+    -> on j.job_id = e.job_id ;
+
+Q27) Display all jobs even if no employee is assigned.
+
+Ans:
+
+mysql> select j.job_title AS 'Job Title', concat(e.first_name,' ',e.last_name) AS 'Employee Name'
+    -> from jobs AS j
+    -> left join employees AS e
+    -> on j.job_id = e.job_id;
+
+
+Q28) Display jobs having no employees.
+
+
+Ans:
+
+mysql> select j.job_title as 'Job Title'
+    -> from jobs as j left join employees as e
+    -> on j.job_id = e.job_id
+    -> where e.job_id is null ;
+
+Q29) Display Job Title where no employee is assigned. 
+
+Ans:
+
+mysql> select j.job_title as 'Job Title'
+    -> from jobs as j left join employees as e
+    -> on j.job_id = e.job_id
+    -> where e.job_id is null;
+
+Q30) Count employees per job including empty jobs.
+
+Ans:
+
+mysql> select j.job_title AS 'Job Title',
+    ->        count(e.employee_id) AS 'Total Employees'
+    -> from jobs AS j
+    -> left join employees AS e
+    -> on j.job_id = e.job_id
+    -> group by j.job_title;
+
+Q31) Display all job titles and employee names.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title',concat(e.first_name,' ',e.last_name) as 'Employee Name'
+    -> FROM jobs AS j left join employees as e
+    -> on j.job_id = e.job_id;
+
+Q32) Display all jobs with maximum salary and assigned employees.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title', j.Max_salary as 'Maximum salary', e.first_name
+    -> from jobs as j left join employees as e
+    -> on j.job_id = e.job_id;
+
+Q33) Display all jobs with minimum salary and assigned employees.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title', j.Min_salary as 'Minimum salary', e.first_name
+    -> from jobs as j left join employees as e
+    -> on j.job_id = e.job_id;
+
+Q34) Display job titles sorted alphabetically with employee names.
+
+Ans:
+
+mysql> select j.job_title as 'Job Title',e.first_name as 'Employee Name'
+    -> from jobs as j left join employees as e
+    -> on j.job_id = e.job_id
+    -> order by j.job_title asc;
+
+Q35) Display jobs whose max salary is greater than 50000 and assigned employees.
+
+Ans:
+mysql> select j.job_title as 'Job Title',e.salary as 'Salary', e.first_name as 'Employee Name'
+    -> from jobs as j left join employees as e
+    -> on j.job_id = e.job_id
+    -> where j.max_salary > 50000;
+
+Q36) Display all possible combinations of employees and jobs.
+
+Ans:
+
+mysql> select *
+    -> from employees cross join jobs ;
+
+Q37) Count total combinations generated by CROSS JOIN.
+
+Ans:
+
+mysql> select count(*)
+    -> from employees cross join jobs ;
+
+Q38) Display Employee Name and Job Title using CROSS JOIN.
+
+Ans:
+
+mysql> select first_name,job_title
+    -> from employees cross join jobs ;
+
+Q39) Display combinations where salary > 30000.
+
+Ans:
+
+mysql> select *
+    -> from employees cross join jobs
+    -> where salary > 30000;
+
+Q40) Display first 10 records generated by CROSS JOIN.
+
+Ans:
+
+mysql> select *
+    -> from employees cross join jobs
+    -> limit 10;
+
+Q41) Display Employee Name and Manager Name.
+
+Ans:
+
+mysql> select e.employee_name AS Employee,m.employee_name AS Manager 
+    -> from employee_manager as e inner join employee_manager as m
+    -> on e.manager_id = m.employee_id;
+
+Q42) Display employees who have managers.
+
+Ans:
+
+mysql> select e.employee_name as 'Employee name', m.employee_name as 'Manager Name'
+    -> from employee_manager as e inner join employee_manager as m
+    -> on e.manager_id = m. employee_id ;
+
+Q43) Display employees who do not have managers.
+
+Ans:
+
+mysql> select employee_name
+    -> from employee_manager
+    -> where manager_id is null;
+
+Q44) Display managers and their employees.
+
+Ans:
+
+mysql> select m.employee_name as 'Manager Name', e.employee_name as 'employee_name'
+    -> from employee_manager as m inner join employee_manager as e
+    -> on m.employee_id = e.manager_id;
+
+Q45) Count employees under each manager.
+
+Ans:
+
+mysql> select m.employee_name as 'Manager Name', count(e.employee_name) as 'employee under'
+    -> from employee_manager as m inner join employee_manager as e
+    -> on m.employee_id = e.manager_id
+    -> group by m.employee_name;
+
+Q46) Display manager name and total employees reporting to them.
+
+Ans:
+
+mysql> select m.employee_name as 'Manager Name', count(e.employee_name) as 'Total employee Reporting'
+    -> from employee_manager as m inner join employee_manager as e
+    -> on m.employee_id = e.manager_id
+    -> group by m.employee_name;
+
+Q47) Display employee-manager pairs sorted by manager name.
+
+Ans:
+
+mysql> select m.employee_name as 'Manager Name', e.employee_name as 'Employee Name'
+    -> from employee_manager as m inner join employee_manager as e
+    -> on m.employee_id = e.manager_id
+    -> order by m.employee_name ;
+
+
+Q48) Display employees working under Tony.
+
+Ans:
+
+mysql> select m.employee_name as 'Manager Name', e.employee_name as 'Employee Name'
+    -> from employee_manager as m inner join employee_manager as e
+    -> on m.employee_id = e.manager_id
+    -> where m.employee_name = 'Tony';
+
+
+Q49) Display employees working under the same manager.
+
+Ans: 
+
+select e1.employee_name as Employee1,
+       e2.employee_name as Employee2,
+       e1.manager_id
+from employee_manager e1
+inner JOIN employee_manager e2
+on e1.manager_id = e2.manager_id
+where e1.employee_id < e2.employee_id;
+
+
+Q50) Display manager names who manage more than 2 employees.
+
+Ans:
+select m.employee_name as 'Manager Name',
+       count(e.employee_id) as 'Total Employees'
+from employee_manager m
+inner join employee_manager e
+on m.employee_id = e.manager_id
+group by m.employee_name
+having count(e.employee_id) > 2;
+
