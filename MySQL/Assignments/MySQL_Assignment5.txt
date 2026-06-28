@@ -1,0 +1,504 @@
+MySQL Assignment 5
+
+
+Q1) List all the books that are written by Author Loni and has price less then 600.
+
+Ans:
+
+mysql> select book_name as 'Books by Loni'
+    -> from books
+    -> where author = 'loni' and price < 600;
+
+Q2) List the Issue details for the books that are not returned yet.
+
+Ans:
+
+mysql> select *
+    -> from issue_details
+    -> where return_date is null;
+
+Q3) Update all the blank return_date with 31-Dec-06 excluding 7005 and 7006.
+
+Ans:
+
+mysql> update issue_details
+    -> set return_date = '2006-12-31'
+    -> where return_date is null and lib_issue_id not in (7005, 7006);
+
+Q4) List all the Issue details that have books issued for more then 30 days. 
+
+Ans:
+
+mysql> select *
+    -> from issue_details
+    -> where datediff(return_date,issue_date) > 30;
+
+Q5) List all the books that have price in range of 500 to 750 and has  category as Database. 
+
+Ans:
+
+mysql> select *
+    -> from books
+    -> where price between 500 and 750
+    -> and category = 'Database';
+
+Q6) List all the books that belong to any one of the following categories Science, Database, Fiction, Management. 
+
+Ans:
+
+mysql> select *
+    -> from books
+    -> where category in ('Science', 'Database', 'Fiction', 'Management');
+
+Q7) List all the members in the descending order of Penalty due on them.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> order by penalty_amount desc;
+
+Q8) Modify the price of book with id 103 to Rs 300 and category to RDBMS. 
+
+Ans:
+
+mysql> update books
+    -> set category = 'RDBMS', price = 300
+    -> where book_no = 103;
+
+Q9) List all the books in ascending order of category and descending order of price.
+
+Ans:
+
+mysql> select *
+    -> from books
+    -> order by category asc, price desc;
+
+Q10) List all the books that contain word SQL in the name of the book.
+
+Ans:
+
+mysql> select *
+    -> from books
+    -> where book_name like '%SQL%';
+
+Q11) List the Lib_Issue_Id, Issue_Date, Return_Date and No of days Book was issued.
+
+Ans:
+
+mysql> select lib_Issue_id, Issue_Date, Return_Date,
+    -> datediff( return_date, Issue_date) as 'Days book Was Issued'
+    -> from issue_details;
+
+Q12) Find the details of the member of the Library in the order of their joining the library.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> order by joining_date;
+
+Q13) Display the count of total no of books issued to Member 101. 
+
+Ans:
+
+mysql> select count(lib_issue_id) as 'Total Books Issued'
+    -> from issue_details
+    -> where member_id = 101;
+
+Q14) Display the total penalty due for all the members. 
+
+Ans:
+
+mysql> select sum(penalty_amount) as 'Total Penalty Amount'
+    -> from members;
+
+Q15) Display the total no of members.
+
+Ans:
+
+mysql> select count(member_id) as 'Total Members'
+    -> from members;
+
+Q16) Display the total no of books issued.
+
+Ans:
+
+mysql> select count(lib_issue_id) as 'Total Issued'
+    -> from issue_details;
+
+Q17) Display the average membership fees paid by all the members.
+
+Ans:
+
+mysql> select avg(membership_fee) as 'Average Membership Fees'
+    -> from members;
+
+Q18) List the various categories and count of books in each category. 
+
+Ans:
+
+mysql> select category, count(book_name) as 'Books'
+    -> from books
+    -> group by category;
+
+Q19) List the book_No and the number of times the book is issued in the descending order of count.
+
+Ans:
+
+mysql> select book_no, count(book_no) as 'issued count'
+    -> from issue_details
+    -> group by book_no 
+    -> order by count(book_no) desc ;
+
+
+Q20) Find the maximum, minimum, total and average penalty amount in the member table.
+
+Ans:
+mysql> select max(penalty_amount) as 'Maximum Penalty',
+    -> min(penalty_amount) as 'Minimum Penalty',
+    -> sum(penalty_amount) as 'Total Penalty',
+    -> avg(penalty_amount) as 'Average Penalty'
+    -> from members;
+
+Q21) Display the member id and the no of books for each member that has issued more then 2 books.
+
+Ans:
+
+mysql> select member_id, count(book_no) as 'Books Issued'
+    -> from issue_details
+    -> group by member_id
+    -> having count(book_no) > 2;
+
+Q22) Display the member id, book no and no of times the same book is issued by the member in the descending order of count.
+
+Ans:
+
+mysql> select member_id, book_no, count(book_no) as 'Issued'
+    -> from issue_details
+    -> group by book_no, member_id
+    -> order by count(book_no) desc;
+
+Q23) Display the month and no of books issued each month in the descending order of count.
+
+Ans:
+
+mysql> select monthname(issue_date) as 'Month', count(book_no) as 'Books Issued'
+    -> from issue_details
+    -> group by monthname(issue_date)
+    -> order by count(book_no) desc;
+
+Q24) List the book_no of all the books that are not issued to any member so far.
+
+Ans:
+
+mysql> select book_no
+    -> from books
+    -> where book_no not in(
+    -> select book_no from issue_details);
+
+Q25) List all the member id that exist in member table and has also at least one book issued by them.
+
+Ans:
+
+mysql> select distinct member_id
+    -> from issue_details
+    -> where member_id in
+    -> ( select member_id from members );
+
+Q26) List the member ID with highest and lowest no of books issued.
+
+Ans:
+
+mysql> ( SELECT member_id,
+    ->        COUNT(book_no) AS 'Books Issued'
+    -> FROM issue_details
+    -> GROUP BY member_id
+    -> ORDER BY COUNT(book_no) DESC
+    -> LIMIT 1)
+    ->
+    -> UNION
+    -> ( SELECT member_id,
+    ->        COUNT(book_no) AS 'Books Issued'
+    -> FROM issue_details
+    -> GROUP BY member_id
+    -> ORDER BY COUNT(book_no) ASC
+    -> LIMIT 1
+    -> );
+
+
+Q27) List all the Issue_details for books issued in December and July without using any arithmetic, Logical or comparison operator.
+
+Ans:
+
+mysql> select *
+    -> from issue_details
+    -> where monthname(issue_date) in ('december', 'july');
+
+
+Q28) List the Book_No, Book_Name and Issue_date for all the books that are issued in month of December and belong to category Database.
+
+Ans:
+
+mysql> select b.book_no, b.book_name, i.issue_date
+    -> from books as b inner join issue_details as i
+    -> on b.book_no = i.book_no
+    -> where monthname(i.issue_date) = 'december' and b.category = 'Database';
+
+Q29) List the Member Id, Member Name and max books allowed in the descending order of the max books allowed.
+
+Ans:
+
+mysql> select member_id, member_name, max_books_allowed
+    -> from members
+    -> order by max_books_allowed desc;
+
+Q30) List the Book No, Book Name, Issue_date and Return_Date for all the books issued by Richa Sharma.
+
+Ans:
+
+mysql> select b.book_no, b.book_name, i.issue_date, i.return_date
+    -> from books as b inner join issue_details as i
+    -> on b.book_no = i.book_no
+    -> where member_id = (
+    -> select member_id from members where member_name = 'Richa Sharma') ;
+
+Q31) List the details of all the members that have issued books in Database category.
+
+Ans:
+
+mysql> select m.*
+    -> from members as m inner join issue_details as i
+    -> on m.member_id = i.member_id
+    -> where i.book_no in
+    -> ( select book_no from books where category = 'Database');
+
+Q32) List all the books that have highest price in their own category.
+
+Ans:
+
+mysql> select *
+    -> from books b
+    -> where price =
+    -> (select max(price) from books where category = b.category);
+
+Q33) List all the Issue_Details where Issue_date is not within the Acc_open_date and Return_date for that member.
+
+Ans:
+
+mysql> select i.*
+    -> from issue_details as i inner join members as m
+    -> on i.member_id = m.member_id
+    ->  where i.issue_date not between m.joining_date and i.return_date;
+
+Q34) List all the members that have not issued a single book so far.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> where member_id not in (
+    -> select member_id from issue_details) ;
+
+Q35) List all the members that have issued the same book as issued by Garima.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> where member_id in
+    -> (select member_id from issue_details where book_no in
+    -> (select book_no from issue_details where member_id in
+    -> (select member_id from members where member_name like '%Garima%'))) ;
+
+Q36) List the Book_Name, Price of all the books that are not returned for more then 30 days.
+
+Ans:
+mysql> select book_name, price
+    -> from books
+    -> where book_no in
+    -> ( select book_no from issue_details where return_date is null and datediff(curdate(), issue_date) > 30 ) ;
+
+Q37) List all the authors and book_name that has more then 1 book written by them.
+
+Ans:
+
+
+mysql> select author, book_name
+    -> from books
+    -> where author in
+    -> (SELECT author
+    -> FROM books
+    -> GROUP BY author
+    -> HAVING COUNT(book_name) > 1 );
+
+Q38) List the Member ID, Member Name of the people that have issued the highest and the lowest no of books.
+
+Ans:
+
+mysql> ( select m.member_id, m.member_name
+    -> from members as m inner join issue_details as i
+    -> on m.member_id = i.member_id
+    -> group by m.member_id, m.member_name
+    -> order by count(i.book_no) desc limit 1 )
+    -> union
+    -> ( select m.member_id, m.member_name
+    -> from members as m inner join issue_details as i
+    -> on m.member_id = i.member_id
+    -> group by m.member_id, m.member_name
+    -> order by count(i.book_no) asc limit 1 ) ;
+
+Q39) List the details of highest 3 priced books.
+
+Ans:
+
+mysql> select *
+    -> from books
+    -> order by price desc limit 3;
+
+Q40) List the total cost of all the books that are currently issued but not returned.
+
+Ans:
+
+mysql> select sum(price) as 'Total Cost'
+    -> from books
+    -> where book_no in
+    -> ( select book_no from issue_details where return_date is null ) ;
+
+Q41) List the details of the book that has been issued maximum no of times.
+
+Ans:
+
+mysql> select b.*
+    -> from books b
+    -> inner join
+    -> (
+    ->     select book_no
+    ->     from issue_details
+    ->     group by book_no
+    ->     order by count(*) desc
+    ->     limit 1
+    -> ) t
+    -> ON b.book_no = t.book_no;
+
+Q42) List how many books are issued to lifetime members.
+
+Ans:
+
+mysql> select count(book_no) as 'Total Books Issued'
+    -> from issue_details
+    -> where member_id in
+    -> (select member_id from members where member_type = 'lifetime');
+
+Q43) List all member types and how many members are there in each type.
+
+Ans:
+
+mysql> select member_type, count(member_id) as 'Total Members'
+    -> from members
+    -> group by member_type ;
+
+Q44) List first 5 members who had joined library.
+
+Ans:
+
+mysql> select member_name as 'First Five Members'
+    -> from members
+    -> order by joining_date
+    -> limit 5;
+
+Q45) List the members with their member type, who have issued books during the period 1st December to 31st December. 
+
+Ans:
+
+mysql> select distinct m.member_name, m.member_type
+    -> from members as m inner join issue_details as i
+    -> on m.member_id = i.member_id
+    -> where month(i.issue_date) = 12;
+
+Q46) List all the members who have not returned books yet. 
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> where member_id in
+    -> ( select member_id from issue_details where return_date is null);
+
+Q47) List all the members who joined library on the same date Garima joined.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> where joining_date in
+    -> (select joining_date from members where member_name like '%garima%');
+
+Q48) List all the members who has issued books from author “Loni” in the month of December.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> where member_id in
+    -> (select member_id from issue_details where monthname(issue_date) = 'December' and book_no in
+    -> (select book_no from books where author = 'Loni'));
+
+Q49) List names of the authors whose books are least issued by lifetime members. 
+
+Ans:
+
+mysql> select b.author
+    -> from books as b
+    -> inner join issue_details as i
+    -> on b.book_no = i.book_no
+    -> inner join members as m
+    -> on i.member_id = m.member_id
+    -> where m.member_type = 'lifetime'
+    -> group by b.author
+    -> order by count(i.book_no) asc
+    -> limit 1 ;
+
+
+Q50) List the names of members who has issued the books whose cost is more than 300 rupees and whose author is “Scott Urman” 
+
+Ans:
+
+mysql> select distinct member_name
+    -> from members
+    -> where member_id in
+    -> (select member_id from issue_details where book_no in
+    -> (select book_no from books where price > 300 and author = 'Scott Urman' ));
+
+Q51) List all lifetime members who joined library during 1st January 2006 to 31st December 2006 but issued only one book.
+
+Ans:
+
+mysql> select *
+    -> from members
+    -> where member_type = 'lifetime' and joining_date between '2006-01-01' and '2006-12-31'
+    -> and member_id in
+    -> (select member_id from issue_details group by member_id having count(member_id) = 1);
+
+Q52) Modify the Penalty_Amount for Garima Sen to Rs 100. 
+
+Ans:
+
+mysql> update members
+    -> set penalty_amount = 100
+    -> where member_name = 'Garima Sen';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
