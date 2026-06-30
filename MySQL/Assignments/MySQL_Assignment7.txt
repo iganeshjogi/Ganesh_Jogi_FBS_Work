@@ -1,0 +1,127 @@
+MySQL Assignment 7
+
+Q1) Start a transaction and insert a new member record into Member table. 
+Save the changes permanently.
+
+Ans:
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into members values
+    -> (100, 'Peter Parker', 'Student', '2012-01-01', 5000, 10, 500 ) ;
+
+mysql> commit;
+
+
+Q2) Start a transaction and insert a new book record into Books table.
+Undo the insertion using rollback.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> insert into books values
+    -> (100, 'Bhagavat Geeta', 'Shri Krishan', 'Religious', 100);
+
+mysql> rollback;
+
+
+Q3) Start a transaction and update Penalty_Amount of a member.
+Create a savepoint before update, then rollback to the savepoint.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> savepoint sp1;
+
+mysql> update members
+    -> set penalty_amount = 0
+    -> where member_id = 101;
+
+mysql> rollback to sp1;
+
+
+Q4) Start a transaction and perform the following steps:
+- Issue a book to a member (insert into Issue table)
+- Update the Max_Books_Allowed count of that member
+Commit the transaction only if both operations succeed.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> insert into issue_details values
+    -> (7000, 100, 106, '2016-12-12', null);
+
+mysql> update members
+    -> set max_books_allowed = 15
+    -> where member_id = 100;
+
+mysql> commit;
+
+
+Q5) Start a transaction and perform the following:
+- Update the cost of a book
+- Create a savepoint
+- Delete one issue record
+Rollback only the delete operation using savepoint.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> update books
+    -> set price = 600
+    -> where book_no = 101;
+
+mysql> savepoint sp1;
+
+mysql> delete from issue_details
+    -> where lib_issue_id = 7000;
+
+mysql> rollback to sp1;
+
+
+Q6) Demonstrate that after COMMIT, rollback cannot undo the changes.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> delete from issue_details
+    -> where lib_issue_id = 7000;
+
+mysql> commit;
+
+mysql> rollback;
+
+Explanation: 
+
+After COMMIT, the changes become permanent. Executing ROLLBACK after COMMIT does not undo the committed changes.
+
+
+Q7) Demonstrate that SAVEPOINT allows partial rollback inside a transaction.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> update books
+    -> set price = 600
+    -> where book_no = 101;
+
+mysql> savepoint sp1;
+
+mysql> delete from issue_details
+    -> where lib_issue_id = 7000;
+
+mysql> rollback to sp1;
+
+mysql> commit;
+
+Explanation: 
+
+ROLLBACK TO SAVEPOINT undoes only the statements executed after the savepoint. The update remains and is saved after COMMIT.
+
