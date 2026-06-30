@@ -1,0 +1,158 @@
+# CASE STATEMENTS
+
+Q1) Write an SQL query to display Employee Name, Salary, and Salary_Status using the following conditions:
+
+Salary greater than or equal to 50000 → High Salary
+Otherwise → Low Salary
+
+Ans:
+
+mysql> selectemp_ name, salary,
+    -> case
+    -> when salary >= 50000 then 'High Salary'
+    -> else 'Low Salary'
+    -> end as Salary_status
+    -> from employee;
+
+Q2) Write an SQL query to display Student Name, Marks, and Result using the following conditions:
+
+Marks greater than or equal to 75 → Distinction
+Marks between 60 and 74 → First Class
+Marks between 35 and 59 → Pass
+Marks less than 35 → Fail
+
+Ans:
+
+mysql> select Name, Marks,
+    -> case
+    -> when Marks >= 75 then 'Distinction'
+    -> when Marks between 60 and 74 then 'First Class'
+    -> When Marks between 35 and 59 then 'Pass'
+    -> When Marks < 35 then 'Fail'
+    -> end as Result
+    -> from students;
+
+Q3) Write an SQL query to display Employee Name, City, and State_Name using the following conditions:
+
+City is Pune → Maharashtra
+City is Mumbai → Maharashtra
+Otherwise → Other State
+
+Ans:
+
+mysql> select Emp_name, City,
+    -> case
+    -> when city in ('pune','Mumbai') then 'Maharashtra'
+    -> else 'Other State'
+    -> end as State_Name
+    -> from Employee ; 
+
+Q4) Write an SQL query to display Book Name, Price, and Book_Category using the following conditions:
+
+Price greater than or equal to 700 → Expensive
+Price between 400 and 699 → Moderate
+Otherwise → Affordable
+
+Ans:
+
+mysql> select book_name, Price, 
+    -> case
+    -> when price >= 700 then 'Expensive'
+    -> When price between 400 and 699 then 'Moderate'
+    -> else 'Affordable'
+    -> end as Book_category
+    -> from books ;
+
+Q5) Write an SQL query to display Member Name, Penalty Amount, and Penalty_Status using the following conditions:
+
+Penalty Amount is 0 → No Penalty
+Penalty Amount greater than 0 → Penalty Due
+
+Ans:
+
+mysql> select Member_Name, Penalty_Amount,
+    -> case
+    -> when penalty_amount = 0 then 'No Penalty'
+    -> when penalty_amount > 0 then 'Penalty Due'
+    -> end as Penalty_Status
+    -> from Members ;
+
+Q6) Write an SQL query to update the Salary of employees using a CASE statement with the following conditions:
+
+Employees from Pune → Increase salary by 10%
+Employees from Mumbai → Increase salary by 15%
+All other employees → Increase salary by 5%
+
+Ans:
+
+mysql> update employees
+    -> set salary = salary +
+    -> case
+    -> when city = 'Pune' then salary*0.1
+    -> when city = 'Mumbai' then salary*0.15
+    -> else salary*0.05
+    -> end ;
+
+Q7) Write an SQL query to display Book Name, Category, and Book_Type using the following conditions:
+
+Category is Database → Technical
+Category is Science → Educational
+Category is Fiction → Entertainment
+Otherwise → Other
+
+Ans:
+
+mysql> select Book_name, Category,
+    -> case
+    -> when category = 'Database' then 'Technical'
+    -> when category = 'Science' then 'Educational'
+    -> when category = 'Fiction' then 'Entertainment'
+    -> else 'Other'
+    -> end as Book_Type 
+    -> from books;
+
+Q8) Write an SQL query to display Employee Name, Experience (Years), and Experience_Level using the following conditions:
+
+Experience greater than or equal to 10 years → Senior
+Experience between 5 and 9 years → Mid-Level
+Otherwise → Junior
+
+Ans:
+
+mysql> select emp_name, experience,
+    -> case
+    -> when experience >= 10 then 'Senior'
+    -> when experience between 5 and 9 then 'Mid-Level'
+    -> else 'Junior'
+    -> end as Experience_level
+    -> from employees ;
+
+Q9) Write an SQL query to display Member Name, Membership Fee, and Membership_Status using the following conditions:
+
+Membership Fee greater than or equal to 1000 → Premium
+Otherwise → Standard
+
+Ans:
+
+mysql> select Member_Name, Membership_Fee,
+    -> case
+    -> when Membership_Fee >= 1000 then 'Premium'
+    -> else 'Standard'
+    -> end as Membership_Status
+    -> from members;
+
+Q10) Write an SQL query to display Book Name, Issue Date, and Issue_Month using the following conditions:
+
+Month is December → Year End Issue
+Month is January → New Year Issue
+Otherwise → Regular Issue
+
+Ans:
+
+mysql> Select Book_Name, Issue_Date,
+    -> case
+    -> when monthname(issue_date) = 'December' then 'Year End Issue'
+    -> when monthname(issue_date) = 'January' then 'New Year Issue'
+    -> else 'Regular Issue'
+    -> end as Issue_Month
+    -> from issue_details;
