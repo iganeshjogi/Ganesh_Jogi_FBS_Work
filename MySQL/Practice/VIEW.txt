@@ -1,0 +1,41 @@
+# VIEW
+
+Q1) Create a view named high_salary that shows employees earning more than 40,000.
+
+Ans:
+
+mysql> create view high_salary as
+    -> select *
+    -> from employee
+    -> where salary > 40000;
+
+Q2) Create a view that displays only employee name and city.
+
+Ans:
+
+mysql> create view employee_city as
+    -> select name, city
+    -> from employee;
+
+Q3) Create a view that displays department-wise average salary.
+
+Ans:
+
+mysql> create view dept_avg_sal as
+    -> select d.dept_name, avg(e.salary) as 'Avg Salary'
+    -> from employee as e inner join department as d
+    -> on e.dept_id = d.dept_id
+    -> group by d.dept_name;
+
+Q4) Drop the high_salary view.
+
+Ans:
+
+mysql> drop view high_salary;
+
+Q5) Show all views in the current database
+
+Ans:
+
+mysql> show full tables
+    -> where table_type = 'VIEW';
