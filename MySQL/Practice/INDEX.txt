@@ -1,0 +1,46 @@
+# INDEX
+
+Q1) Create an index named idx_book_name on the book_name column of the books table.
+
+Ans:
+
+mysql> create index idx_book_name 
+    -> on books(book_name);
+
+
+Q2) Create an index named idx_member_name on the member_name column of the members table.
+
+Ans:
+
+mysql> create index idx_member_name
+    -> on members(member_name);
+
+
+Q3) Create a UNIQUE INDEX on the email column of the employee table.
+
+Ans:
+
+mysql> create unique index idx_email
+    -> on employee(email);
+
+
+Q4) Create a Composite Index on city and salary in the employee table.
+
+Ans:
+
+mysql> create index idx_city_salary
+    -> on employee(city, salary);
+
+
+Q5) Display all indexes of the employee table.
+
+Ans:
+
+mysql> show indexes from employee;
+
+
+Q6) Drop the index idx_city_salary from the employee table.
+
+Ans:
+
+mysql> drop index idx_city_salary on employee;
