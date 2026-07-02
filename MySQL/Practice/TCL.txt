@@ -1,0 +1,70 @@
+# TCL - "Transaction Control Language"
+
+
+Q1 Start a transaction.
+
+Ans:
+
+mysql> start transaction ;
+
+
+Q2 Increase the salary of employee 101 by ₹5000.
+
+Ans:
+
+mysql> update employee
+    -> set salary = salary + 5000
+    -> where emp_id = 101 ;
+
+
+Q3 Save the transaction permanently.
+
+Ans:
+
+mysql> commit ;
+
+
+Q4 Start another transaction and update the salary of employee 102.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> update employee
+    -> set salary = salary + 5000
+    -> where emp_id = 102 ;
+
+
+Q5 Undo the last transaction.
+
+Ans:
+
+mysql> rollback ;
+
+
+Q6 Start a transaction.
+	Create a savepoint named sp1.
+	Delete employee 105.
+	Roll back to sp1.
+	Commit the remaining changes.
+
+Ans:
+
+mysql> start transaction;
+
+mysql> savepoint sp1 ;
+
+mysql> delete from employee
+    -> where emp_id = 105 ;
+
+mysql> rollback to sp1;
+
+mysql> commit;
+
+
+
+
+
+
+
+
