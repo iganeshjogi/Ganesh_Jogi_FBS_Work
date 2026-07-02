@@ -1,0 +1,73 @@
+# STORED PROCEDURES [ IN PARAMETERS]
+
+Q1 Create a procedure named show_books that displays all records from the books table.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure show_books ()
+    -> begin
+    -> select * from books;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2 Execute the show_books procedure.
+
+Ans:
+
+mysql> call show_books();
+
+
+Q3 Create a procedure named show_members that displays all members.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure show_members ()
+    -> begin
+    -> select *
+    -> from members;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q4 Execute the show_members procedure.
+
+Ans:
+
+mysql> call show_members();
+
+
+Q5 Drop the show_books procedure.
+
+Ans:
+
+mysql> drop procedure show_books;
+
+
+Q6 Create a procedure named member_details that accepts a Member ID as an IN parameter and displays that member's details.
+
+Ans:
+
+mysql>  delimiter #
+
+mysql> create procedure member_details (in m_id int)
+    -> begin
+    -> select *
+    -> from members
+    -> where member_id = m_id;
+    -> end #
+
+mysql> delimiter ;
+
+Q7 Call the procedure to display details of member 101.
+
+Ans:
+
+mysql> call member_details(101);
+
