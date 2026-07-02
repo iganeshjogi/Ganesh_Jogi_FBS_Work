@@ -1,0 +1,93 @@
+# MySQL Assignment 10
+
+
+Q1) Write a stored function Annual_Salary that takes salary as input and returns yearly salary (salary * 12). 
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function Annual_salary(salary decimal(10,2))
+    -> returns decimal (10,2)
+    -> deterministic
+    -> begin
+    -> return salary * 12;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Write a stored function Calculate_Bonus that takes salary as input and returns bonus amount: 
+- If salary >= 80000 → bonus = 20% 
+- If salary between 50000 and 79999 → bonus = 10% 
+- Otherwise → bonus = 5% 
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function Calculate_Bonus( salary decimal(10,2))
+    -> returns decimal (10,2)
+    -> deterministic
+    -> begin
+    -> if salary >= 80000 then
+    -> return salary * 0.20;
+    -> elseif salary between 50000 and 79999 then
+    -> return salary * 0.10 ;
+    -> else
+    -> return salary * 0.05;
+    -> end if ;
+    -> end#
+
+mysql> delimiter ;
+
+
+Q3) Write a stored function Salary_Grade that takes salary as input and returns grade: 
+- 'A' if salary >= 80000 
+- 'B' if salary between 50000 and 79999 
+- 'C' if salary < 50000
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function salary_grade( salary decimal(10,2))
+    -> returns char (1)
+    -> deterministic
+    -> begin
+    -> if salary >= 80000 then
+    -> return 'A';
+    -> elseif salary between 50000 and 79999 then
+    -> return 'B';
+    -> else
+    -> return 'C';
+    -> end if;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q4) Write a stored function Employee_Exists that takes emp_id as input and returns 1 if employee exists, otherwise 0.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function Employee_Exists(emp_id int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> declare cnt int;
+    -> select count(*)
+    -> into cnt
+    -> from employee
+    -> where id = emp_id ;
+    -> if cnt > 0 then
+    -> return 1 ;
+    -> else
+    -> return 0;
+    -> end if;
+    -> end#
+
+mysql> delimiter ;
+
