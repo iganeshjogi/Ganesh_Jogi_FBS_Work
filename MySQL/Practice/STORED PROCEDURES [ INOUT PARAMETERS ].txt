@@ -1,0 +1,51 @@
+# STORED PROCEDURES [ INOUT PARAMETERS]
+
+
+Q1 Create a procedure named increase_salary that accepts an INOUT salary parameter and increases it by 1000.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure increase_salary ( inout plussalary decimal(10, 2) )
+    -> begin
+    -> set plussalary = plussalary + 1000 ;
+    -> end #
+
+mysql> delimiter ;
+
+Q2 Execute the procedure for a salary of 30000 and display the updated salary.
+
+Ans:
+
+mysql> set @plussalary = 10000;
+
+mysql> call increase_salary(@plussalary);
+
+mysql> select @plussalary;
+
+
+Q3 Create a procedure named increase_penalty that accepts an INOUT penalty parameter and increases it by 50.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure increase_penalty ( inout increasepenalty decimal(7,2))
+    -> begin
+    -> set increasepenalty = increasepenalty + 50
+    -> ;
+    -> end#
+
+mysql> delimiter ;
+
+Q4 Execute the procedure for a penalty of 100 and display the updated value.
+
+Ans:
+
+mysql> set @increasepenalty = 100;
+
+mysql> call increase_penalty (@increasepenalty);
+
+mysql> select @increasepenalty;
+

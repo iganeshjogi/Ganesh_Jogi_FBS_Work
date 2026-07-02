@@ -1,0 +1,55 @@
+# STORED PROCEDURES [ OUT PARAMETERS]
+
+
+Q1) Create a procedure named total_books that returns the total number of books using an OUT parameter.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure total_books (out countbook int)
+    -> begin
+    -> select count(*)
+    -> into countbook
+    -> from books;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Execute the procedure and display the returned value.
+
+Ans:
+
+mysql> set @countbook = 0;
+
+mysql> call total_books (@countbook);
+
+mysql> select @countbook;
+
+
+Q3) Create a procedure named max_penalty that returns the maximum penalty amount using an OUT parameter.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure max_penalty (out maxpenalty int)
+    -> begin
+    -> select max(penalty_amount)
+    -> into maxpenalty
+    -> from members;
+    -> end#
+
+mysql> delimiter ;
+
+Q4) Execute the procedure and display the returned value.
+
+Ans:
+
+mysql> set @maxpenalty = 0;
+
+mysql> call max_penalty(@maxpenalty);
+
+mysql> select @maxpenalty ;
+
