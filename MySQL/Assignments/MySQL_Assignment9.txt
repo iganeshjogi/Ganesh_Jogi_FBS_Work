@@ -1,0 +1,449 @@
+MySQL Assignment 9
+
+
+Q1) Procedure with IN Parameters (Create New Account) 
+
+Write a procedure named Create_Account that accepts: 
+	- account_no (IN) 
+	- customer_name (IN) 
+	- opening_balance (IN) 
+	- account_type (IN) 
+
+Rules: 
+	- Account number must be unique (should not already exist) 
+	- Opening balance must be greater than or equal to 0 
+	- Account type must be either 'Saving' or 'Current' 
+
+Transaction Control: 
+
+	- If all validations are satisfied, insert the record and COMMIT 
+	- If validation fails, do not insert data, ROLLBACK and display proper message
+
+Ans:
+
+mysql> delimiter #
+mysql> create procedure create_account(
+    ->  in p_account_no int,
+    ->  in p_customer_name varchar(50),
+    ->  in p_opening_balance decimal (10,2),
+    ->  in p_account_type varchar(30))
+    -> begin
+    ->
+    -> declare cnt int default 0 ;
+    ->
+    -> select count(*)
+    -> into cnt
+    -> from bank_account
+    -> where account_no = p_account_no;
+    ->
+    -> if cnt = 0
+    -> and p_opening_balance >= 0
+    -> and p_account_type in ('Saving','Current')
+    -> then
+    ->  insert into bank_account values
+    ->  ( p_account_no, p_customer_name, p_opening_balance, p_account_type );
+    -> commit ;
+    ->
+    -> else
+    ->
+    -> rollback ;
+    ->
+    -> select 'Invalid Account Details';
+    ->
+    -> end if;
+    ->
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Procedure with OUT Parameter (Check Balance) 
+
+Write a procedure named Check_Balance that accepts: 
+- account_no (IN) 
+- current_balance (OUT) 
+
+Rules: 
+
+- If account exists, return the balance using OUT parameter 
+- If account does not exist, display message and set OUT value as NULL	
+
+Ans:
+
+mysql> delimiter #
+mysql>
+mysql> create procedure check_balance (in p_account_no int ,out p_balance decimal(10,2))
+    ->
+    -> begin
+    ->
+    -> declare cnt int default 0;
+    ->  select count(*) into cnt
+    ->  from bank_account
+    ->  where account_no = p_account_no ;
+    -> if cnt = 1 then
+    ->  select balance into p_balance
+    ->  from bank_account
+    ->  where account_no = p_account_no ;
+    -> else
+    ->  select 'Account Not Exists';
+    ->  set p_balance = null;
+    -> end if;
+    ->
+    -> end#
+
+mysql> delimiter ;
+
+
+Q3) Procedure with INOUT Parameter (Deposit Money) 
+
+Write a procedure named Deposit_Amount that accepts: 	
+	- account_no (IN) 
+	- deposit_amount (INOUT) 
+Rules: 
+	- Validate account exists 	
+	- Deposit amount must be greater than 0 
+	- If valid, add deposit_amount to balance 
+	- Update deposit_amount with new balance 
+	- COMMIT if successful 	
+	- Otherwise ROLLBACK and display message
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure deposit_money 
+	(in p_account_no int, inout deposit_amount decimal (10,2))
+    ->
+    -> begin
+    ->
+    -> declare cnt int default 0;
+    ->
+    -> select count(*) into cnt
+    -> from bank_account
+    -> where account_no = p_account_no;
+    ->
+    -> if cnt = 1 and deposit_amount> 0 then
+    ->
+    -> update bank_account
+    -> set balance = balance + deposit_amount
+    -> where account_no = p_account_no;
+    ->
+    -> select balance
+    -> into deposit_amount
+    -> from bank_account
+    -> where account_no = p_account_no ;
+    ->
+    -> commit;
+    ->
+    -> select 'Successful';
+    ->
+    -> else
+    ->
+    -> rollback;
+    ->
+    -> select 'Invalid';
+    ->
+    -> end if;
+    ->
+    -> end#
+
+mysql> delimiter ;
+
+
+Q4) Procedure with Conditional TCL (Withdraw Money) 
+	
+Write a procedure named Withdraw_Amount that accepts: 
+	- account_no (IN) 
+	- withdraw_amount (IN) 
+Rules: 
+	- Validate account exists 
+	- Withdraw amount must be greater than 0 
+	- If sufficient balance, deduct amount and COMMIT
+	- If insufficient balance, ROLLBACK and display message 	
+	- If account not found, ROLLBACK and display message 
+
+Ans:
+
+mysql> delimiter #
+mysql>
+mysql> create procedure withdraw_amount
+    -> (
+    ->     in p_account_no int,
+    ->     in p_withdraw_amount decimal(10,2)
+    -> )
+    ->
+    -> begin
+    ->
+    -> declare cnt int default 0;
+    -> declare current_balance decimal(10,2) default 0;
+    ->
+    -> select count(*)
+    -> into cnt
+    -> from bank_account
+    -> where account_no = p_account_no;
+    ->
+    -> if cnt = 1 then
+    ->
+    ->     select balance
+    ->     into current_balance
+    ->     from bank_account
+    ->     where account_no = p_account_no;
+    ->
+    ->     if p_withdraw_amount > 0
+    ->     and current_balance >= p_withdraw_amount then
+    ->
+    ->         update bank_account
+    ->         set balance = balance - p_withdraw_amount
+    ->         where account_no = p_account_no;
+    ->
+    ->         commit;
+    ->
+    ->         select 'withdrawal successful';
+    ->
+    ->     else
+    ->
+    ->         rollback;
+    ->
+    ->         select 'insufficient balance';
+    ->
+    ->     end if;
+    ->
+    -> else
+    ->
+    ->     rollback;
+    ->
+    ->     select 'account not found';
+    ->
+    -> end if;
+    ->
+    -> end #
+
+mysql> delimiter ;
+
+
+Q5) Procedure with Conditional TCL (Fund Transfer) 
+
+Write a procedure named Transfer_Funds that accepts: 
+	- from_account (IN) 
+	- to_account (IN) 
+	- transfer_amount (IN) 
+
+Rules: 
+
+	- Validate both accounts exist 
+	- Transfer amount must be greater than 0 
+	- Sender must have sufficient balance 
+	- Deduct from sender and add to receiver 
+	- COMMIT only if both updates succeed 
+	- ROLLBACK if any validation fails or error occurs 
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure transfer_funds
+    -> (in from_account int, in to_account int, in transfer_amount decimal(10,2))
+    ->
+    -> begin
+    ->
+    -> declare cnt1 int default 0;
+    -> declare cnt2 int default 0;
+    -> declare from_balance decimal (10,2);
+    ->
+    -> select count(*) into cnt1
+    -> from bank_account
+    -> where account_no = from_account ;
+    ->
+    -> select count(*) into cnt2
+    -> from bank_account
+    -> where account_no = to_account ;
+    ->
+    -> if cnt1 = 1 and cnt2 = 1 then
+    ->
+    ->  select balance into from_balance
+    ->  from bank_account
+    ->  where account_no = from_account;
+    ->
+    ->  if transfer_amount <= from_balance then
+    ->
+    ->  update bank_account
+    ->  set balance = balance - transfer_amount
+    ->  where account_no = from_account;
+    ->
+    ->  update bank_account
+    ->  set balance = balance + transfer_amount
+    ->  where account_no = to_account;
+    ->
+    ->  commit;
+    ->
+    ->  select 'Successfully Transfered';
+    ->
+    ->  else
+    ->
+    ->  rollback;
+    ->
+    ->  select 'Insufficient balance';
+    ->
+    ->  end if;
+    -> else
+    ->
+    -> rollback;
+    ->
+    -> select'Error';
+    ->
+    -> end if;
+    ->
+    -> end#
+
+mysql> delimiter ;
+
+
+Q6) Procedure with Exception Handling (Safe Balance Check) 
+
+Write a procedure named Safe_Balance_Check that accepts: 
+	- account_no (IN) 
+Rules: 
+	- Display balance if account exists 	
+	- Handle NO_DATA_FOUND exception with proper message
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure safe_balance_check(in p_account_no int)
+    -> begin
+    ->
+    -> declare bal decimal(10,2) default null;
+    ->
+    -> declare continue handler
+    -> for not found
+    -> select 'Invalid Account Number';
+    ->
+    -> select balance into bal
+    -> from bank_account
+    -> where account_no = p_account_no;
+    ->
+    -> if bal is not null then
+    -> select bal;
+    ->
+    -> end if;
+    ->
+    -> end#
+
+mysql> delimiter ;
+
+
+Q7) Procedure with Conditional Update (Minimum Balance Penalty) 
+
+Write a procedure named Apply_Penalty that accepts: 
+	- account_no (IN) 
+
+Rules: 
+	- Validate account exists 
+	- If balance is less than 1000, deduct penalty of 100 and COMMIT 
+	- Otherwise display "No Penalty Applied" 
+	- ROLLBACK if account not found
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure apply_penalty(in p_account_no int)
+    -> begin
+    ->
+    -> declare cnt int default 0;
+    -> declare bal decimal(10,2);
+    ->
+    ->  select count(*) into cnt
+    ->  from bank_account
+    ->  where account_no = p_account_no ;
+    ->
+    ->  select balance into bal
+    ->  from bank_account
+    ->  where account_no = p_account_no ;
+    ->
+    -> if cnt = 1 then
+    ->
+    ->  if bal < 1000 then
+    ->
+    ->  update bank_account
+    ->  set balance = balance - 100
+    ->  where account_no = p_account_no;
+    ->  select 'Penalty Applied';
+    ->  commit;
+    ->
+    ->  else
+    ->
+    ->  rollback;
+    ->
+    ->  select 'No Penalty Applied';
+    ->
+    ->  end if;
+    ->
+    -> else
+    ->
+    -> rollback;
+    ->
+    -> select 'Account Not Found';
+    ->
+    -> end if;
+    ->
+    -> end#
+
+mysql> delimiter ;
+
+
+Q8) Procedure with Conditional TCL (Close Account) 
+
+Write a procedure named Close_Account that accepts: 
+	- account_no (IN) 
+
+Rules: 
+	- Validate account exists 
+	- Account can be closed only if balance is zero 
+	- If balance is zero, delete record and COMMIT 
+	- If balance is not zero, ROLLBACK and display message 
+	- If account not found, ROLLBACK and display message
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure close_account(in p_account_no int)
+    -> begin
+    ->
+    -> declare cnt int default 0;
+    -> declare bal decimal (10,2);
+    ->
+    ->  select count(*) into cnt
+    ->  from bank_account
+    ->  where account_no = p_account_no ;
+    ->
+    -> if cnt = 1 then
+    ->
+    ->  select balance into bal
+    ->  from bank_account
+    ->  where account_no = p_account_no;
+    ->
+    ->  if bal = 0 then
+    ->          delete from bank_account
+    ->          where account_no = p_account_no ;
+    ->  commit;
+    ->
+    ->  select 'Account Deleted Successfully';
+    ->
+    ->  else
+    ->          rollback;
+    ->          select 'Balance Is Not Zero';
+    ->  end if ;
+    -> else
+    ->  rollback;
+    ->  select 'Account Not Found';
+    ->
+    -> end if;
+    ->
+    -> end #
+
+mysql>
+mysql> delimiter ;
+
