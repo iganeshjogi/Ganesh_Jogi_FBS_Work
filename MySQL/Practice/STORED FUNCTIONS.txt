@@ -1,0 +1,107 @@
+# STORED FUNCTIONS
+
+Q1) Calculate bonus.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function get_bonus(salary decimal(10,2))
+    -> returns decimal(10,2)
+    -> deterministic
+    -> begin
+    -> return salary * 0.10 ;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Add two nummbers.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function add_two_numbers( a int, b int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> return a + b;
+    -> end#
+
+mysql> delimiter;
+
+
+Q3) Increase price by 100.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function increase_price(price int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> return price + 100;
+    -> end#
+
+
+4) Create a function calculate_bonus:
+
+Salary ≥ 50000 → 20%
+Otherwise → 10%
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function calculate_bonus(salary decimal (10, 2))
+    -> returns decimal(10, 2)
+    -> deterministic
+    -> begin
+    -> if salary >= 50000 then
+    -> return salary * 0.20;
+    -> else
+    -> return salary * 0.10;
+    -> end if;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q5) Create a function price_discount:
+
+Price ≥ 1000 → Return price after 20% discount.
+Otherwise → Return price after 10% discount.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create function price_discount(price int)
+    -> returns int
+    -> deterministic
+    -> begin
+    -> if price  >=  1000 then
+    -> return price  -  price * 0.20;
+    -> else 
+    -> return price - price * 0.10;
+    -> end if;
+    -> end#
+
+mysql> delimiter;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
