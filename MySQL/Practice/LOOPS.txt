@@ -1,0 +1,160 @@
+#### WHILE LOOPS
+
+Q1) Create a procedure print_1_to_10 using a WHILE loop.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure print_1_to_10()
+    -> begin
+    -> declare i int default 1;
+    -> while i <= 10 do
+    -> select i;
+    -> set i = i + 1;
+    -> end while;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Create a procedure print_even that prints even numbers from 2 to 20.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure print_even()
+    -> begin
+    -> declare i int default 2;
+    -> while i <= 20 do
+    -> select i;
+    -> set i = i + 2;
+    -> end while;
+    -> end#
+
+mysql> delimiter ;
+
+
+Q3) Create a procedure print_odd that prints odd numbers from 1 to 19.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure print_odd()
+    -> begin
+    -> declare i int default 1;
+    -> while i < 20 do
+    -> select i;
+    -> set i = i + 2;
+    -> end while;
+    -> end #
+
+mysql> delimiter ;
+
+
+#### LABEL LOOP
+
+
+Q1) Create a procedure using a label and print numbers 1 to 5.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure lable_loop_demo()
+    -> begin
+    -> declare i int default 1;
+    -> print_1_5 : loop
+    -> select i;
+    -> set i = i + 1;
+    -> if i > 5 then
+    -> leave print_1_5;
+    -> end if;
+    -> end loop print_1_5;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Modify the above procedure so that it stops when the value becomes 4 using LEAVE.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure lable_loop_demo()
+    -> begin
+    -> declare i int default 1;
+    -> print_1_5 : loop
+    -> select i;
+    -> set i = i + 1;
+    -> if i = 4 then
+    -> leave print_1_5;
+    -> end if;
+    -> end loop print_1_5;
+    -> end #
+
+mysql> delimiter ;
+
+
+#### REPEAT LOOP
+
+
+Q1) Create a procedure repeat_1_to_5 using a REPEAT loop.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure repeat_1_to_5()
+    -> begin
+    -> declare i int default 1;
+    -> repeat
+    -> select i;
+    -> set i = i + 1;
+    -> until i = 6
+    -> end repeat;
+    -> end #
+
+mysql> delimiter ;
+
+
+Q2) Create a procedure repeat_even that prints even numbers from 2 to 10.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure repeat_even()
+    -> begin
+    -> declare i int default 2;
+    -> repeat
+    -> select i ;
+    -> set i = i + 2;
+    -> until i > 10
+    -> end repeat;
+    -> end#
+
+mysql> delimeter ;
+
+
+Q3) Create a procedure repeat_odd that prints odd numbers from 1 to 9.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create procedure repeat_odd ()
+    -> begin
+    -> declare i int default 1;
+    -> repeat
+    -> select i;
+    -> set i = i + 2;
+    -> until i > 10
+    -> end repeat;
+    -> end #
+
+mysql> delimiter ;
+
