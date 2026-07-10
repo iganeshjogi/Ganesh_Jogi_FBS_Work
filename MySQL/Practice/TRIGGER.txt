@@ -1,0 +1,72 @@
+# TRIGGER
+
+Q1) Create Trigger names salary_backup_trigger to save old salary.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create trigger salary_backup_trigger
+    -> before update
+    -> on employee
+    -> for each row
+    -> begin
+    -> insert into salary_backup
+    -> values
+    -> (old.id, old.salary, curdate() );
+    -> end#
+
+mysql> delimiter ;
+
+
+Q2) Create a trigger named book_backup. 
+	BEFORE UPDATE
+	On books
+Save:
+	OLD.book_no
+	OLD.price
+	CURDATE()
+Into a table named book_backup.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create trigger book_backup
+    -> before update
+    -> on books
+    -> for each row
+    -> begin
+    -> if old.price <> new.price then
+    -> insert into book_backup values (old.book_no,old.price,curdate());
+    -> end if ;
+    -> end#
+
+mysql> delimiter ;
+
+
+Q3) Create a trigger named member_log_trigger.
+	AFTER INSERT
+	On members
+Insert:
+	NEW.member_id
+	NEW.member_name
+	CURDATE()
+Into a table named member_log.
+
+Ans:
+
+mysql> delimiter #
+
+mysql> create trigger member_log_trigger
+    -> after insert
+    -> on members
+    -> for each row
+    -> begin
+    -> insert into member_log values
+    -> (new.member_id, new.member_name, curdate());
+    -> end #
+
+mysql> delimiter ;
+
+
