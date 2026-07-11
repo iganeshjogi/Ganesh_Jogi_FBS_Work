@@ -1,0 +1,94 @@
+# CURSOR
+
+Q1) Write a stored procedure named show_member_names that uses a cursor to display all member names one by one from the members table.
+
+Ans:
+
+DELIMITER #
+
+CREATE PROCEDURE show_member_names()
+
+BEGIN
+
+DECLARE membername VARCHAR(50);
+
+DECLARE done BOOLEAN DEFAULT FALSE;
+
+DECLARE member_cursor CURSOR
+FOR
+SELECT member_name
+FROM members;
+
+DECLARE CONTINUE HANDLER
+FOR NOT FOUND
+SET done = TRUE;
+
+OPEN member_cursor;
+
+read_loop : LOOP
+
+FETCH member_cursor INTO membername;
+
+IF done THEN
+LEAVE read_loop;
+END IF;
+
+SELECT membername;
+
+END LOOP read_loop;
+
+CLOSE member_cursor;
+
+END #
+
+DELIMITER ;
+
+
+
+Q2) Write a stored procedure named show_book_details that uses a cursor to display both the book_name and price of every book one by one.
+
+Ans:
+
+DELIMITER #
+
+CREATE PROCEDURE show_book_details()
+
+BEGIN
+
+DECLARE bookname VARCHAR(50);
+
+DECLARE bookprice INT;
+
+DECLARE done BOOLEAN DEFAULT FALSE;
+
+DECLARE book_name_price CURSOR
+FOR
+SELECT book_name, price
+FROM books;
+
+DECLARE CONTINUE HANDLER
+FOR NOT FOUND
+SET done = TRUE;
+
+OPEN book_name_price;
+
+read_loop : LOOP
+
+FETCH book_name_price
+INTO bookname, bookprice;
+
+IF done THEN
+LEAVE read_loop;
+END IF;
+
+SELECT bookname, bookprice;
+
+END LOOP read_loop;
+
+CLOSE book_name_price;
+
+END #
+
+DELIMITER ;
+
+
