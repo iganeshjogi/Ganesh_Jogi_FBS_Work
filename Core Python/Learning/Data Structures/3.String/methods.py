@@ -1,0 +1,31 @@
+str = 'firstBit solutions'
+
+# res = str.capitalize()
+# res = str.count('ion')
+# res = str.endswith('ions')
+# res = str.find('Bit') 
+# res = str.index('Bit')
+# res = str.isalnum()
+# res = str.isalpha()
+# res = str.isdigit()
+# res = str.isspace()
+# res = str.isupper()
+# res = str.islower()
+# res = ' @ '.join(['a', 'b', 'c'])
+# res = ''.join(['101', 'Ganesh', 'Data Scientist'])
+# res = str.lower()
+# res = str.replace('Bit', 'Byte')
+# res = str.startswith('Fir')
+# res = str.endswith('ons')
+# res = str.strip('[ ]')
+# res = str.swapcase()
+# res = str.title()
+# res = str.upper()
+# print(res)
+# print(str.split())
+
+# str = "[ '127.0.0.1', '345.0.1.7' ]"
+# res = str.strip('[]')
+# print(res) 
+
+# print(res)
