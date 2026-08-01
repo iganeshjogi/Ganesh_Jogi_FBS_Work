@@ -1,32 +1,32 @@
-# 📚 Ganesh Jogi - Learning Repository
+# Ganesh Jogi - Learning Repository
 
-Welcome to my learning repository! 👋
+Welcome to my learning repository.
 
-This repository documents my journey of learning programming, web development, databases, data analysis, and artificial intelligence. It includes classwork, assignments, practice exercises, demos, tests, and projects that I complete while building my technical skills.
+This repository documents my learning journey in programming, web development, databases, data analysis, and artificial intelligence. It contains learning materials, demos, assignments, practice exercises, tests, and projects created while building my technical skills.
 
 ---
 
-## 🚀 Technologies Covered
+## 🚀 Technologies
 
-### 💻 Programming
+### Programming
 - Python
 
-### 🗄️ Database
+### Database
 - MySQL
 
-### 🌐 Web Development
+### Web Development
 - HTML
 - CSS
 - JavaScript
 
-### 📊 Data Analysis
+### Data Analysis
 - Jupyter Notebook
 - NumPy
 - Pandas
 - Matplotlib
 - Seaborn
 
-### 🤖 Upcoming
+### Future Learning
 - Machine Learning
 - Artificial Intelligence
 
@@ -35,63 +35,28 @@ This repository documents my journey of learning programming, web development, d
 ## 📂 Repository Structure
 
 ```text
-Ganesh_Jogi_FBS_Work
-│
-├── Core Python
-├── MySQL
-├── Web Programming
-│   ├── HTML
-│   ├── CSS
-│   └── JavaScript
-│
-├── Data Analysis
-│   ├── Jupyter Notebook
-│   ├── NumPy
-│   ├── Pandas
-│   ├── Matplotlib
-│   └── Seaborn
-│
-└── Future Technologies
+Core Python
+MySQL
+Web Programming
+Data Analysis
 ```
 
 ---
 
 ## 📖 Contents
 
-- 📘 Learning Notes
-- 💻 Demos
-- 📝 Assignments
-- 💡 Practice Programs
-- ✅ Tests
-- 🚀 Projects
+- Learning Notes
+- Demos
+- Assignments
+- Practice Programs
+- Tests
+- Mini Projects
 
 ---
 
-## 🎯 Goals
+## 🎯 Purpose
 
-- Strengthen programming fundamentals
-- Build real-world projects
-- Improve problem-solving skills
-- Learn modern web development
-- Master data analysis with Python
-- Explore machine learning and AI
-
----
-
-## 📈 Learning Progress
-
-- ✅ Core Python
-- ✅ MySQL
-- 🔄 HTML
-- ⏳ CSS
-- ⏳ JavaScript
-- 🔄 Jupyter Notebook
-- ⏳ NumPy
-- ⏳ Pandas
-- ⏳ Matplotlib
-- ⏳ Seaborn
-- ⏳ Machine Learning
-- ⏳ Artificial Intelligence
+This repository serves as a centralized collection of my learning resources and practical work. It reflects my progress as I explore programming, web development, databases, data analysis, and future technologies through consistent practice and project development.
 
 ---
 
