@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBS</title>
+</head>
+
+<body>
+    <h1>FirstBit Solutions</h1>
+    <img src="https://i.postimg.cc/9FLzZYBS/logo.jpg" alt="FBS logo" width="200" height="150">
+    <br><br>
+    <a href="https://firstbitsolutions.com/" target="_blank" title="Main Site">FirstBitSolutions.com</a>
+    <br>
+    <i>Your Future Begins Here!</i>
+    <hr>
+    <h2><u>Student Registration Form</u></h2>
+
+    <form action="welcome.html" method="post">
+        <label for="fullname"><b>Full Name:</b></label>
+        <br>
+        <input id="fullname" type="text" placeholder="Enter your full name" autofocus required>
+        <br><br>
+        <label for="email"><b>Email ID:</b></label>
+        <br>
+        <input id="email" type="email" placeholder="example@gmail.com" required>
+        <br><br>
+        <label for="phone"><b>Phone Number:</b></label>
+        <br>
+        <input id="phone" type="tel" placeholder="e.g. 9876543210" minlength="10" maxlength="10" required>
+        <br><br>
+        <label for="dob"><b>Birth Date:</b></label>
+        <br>
+        <input id="dob" type="date" required>
+        <br><br>
+        <label for="Gender"><b>Select Gender:</b></label><br>
+        <input id="Gender" name="gender" type="radio" value="Male">Male
+        <br>
+        <input id="Gender" name="gender" type="radio" value="Female">Female
+        <br>
+        <input id="Gender" name="gender" type="radio" value="Other">Other
+        <br><br>
+        <label><b>Courses Interested In:</b></label>
+        <br>
+        <input type="checkbox" value="Java FUll Stack">Java Full Stack
+        <br>
+        <input type="checkbox" value="Python FUll Stack">Python Full Stack
+        <br>
+        <input type="checkbox" value="React JS">React JS
+        <br>
+        <input type="checkbox" value="Data Science">Data Science
+        <br><br>
+        <label for="batchtime"><b>Preferred Batch Time:</b></label>
+        <br>
+        <select id="batchtime">
+            <option value="-- Select --">-- Select --</option>
+            <option value="10:00 AM to 12:00 PM">10:00 AM to 12:00 PM</option>
+            <option value="12:00 PM to 02:00 PM">12:00 PM to 02:00 PM</option>
+            <option value="02:00 AM to 04:00 PM">02:00 PM to 04:00 PM</option>
+        </select>
+        <br><br>
+        <label for="about_yourself"><b>Write About Yourself:</b></label>
+        <br>
+        <textarea id="about_yourself" cols="50" rows="4" placeholder="Tell us about yourself..."></textarea>
+        <br><br>
+        <label for="rate_yourself"><b>Rate Your current Skill Level (1-10):</b></label>
+        <br>
+        <input id="rate_yourself" type="range" min="1" max="10">
+        <br><br>
+        <input type="submit" value="Submit Form">
+        <input type="reset" value="Reset Form">
+    </form>
+    <hr>
+    <b>Address:</b> Aditya Centeegra, Office No.7, 3rd Floor. Near IDBI Bank, Dnyaneshwar Paduka Chowk, Pune,
+    Maharashtra 411005
+</body>
+
+</html>
