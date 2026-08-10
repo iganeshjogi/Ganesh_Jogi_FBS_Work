@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+
+<body>
+    <form action="welcome.html" method="post">
+
+        <h1><u>Job Application Form</u></h1>
+        <hr>
+        <h2>Personal Information</h2>
+        <label for="fullname"><b>Full Name:</b></label>
+        <br>
+        <input id="fullname" type="text" placeholder="Enter Your full Name" required>
+        <br><br>
+
+        <label for="email"><b>Email Address:</b></label>
+        <br>
+        <input id="email" type="email" placeholder="xyz@gmail.com" required>
+        <br><br>
+
+        <label for="password"><b>Password:</b></label>
+        <br>
+        <input id="password" type="password" placeholder="Enter Your Password" required>
+        <br><br>
+
+        <label for="mobileno"><b>Mobile Number:</b></label>
+        <br>
+        <input id="mobileno" type="tel" placeholder="Enter Mobile Number" required minlength="10" maxlength="10">
+        <br><br>
+
+        <label for="dob"><b>Date of Birth:</b></label>
+        <br>
+        <input id="dob" type="date" required>
+        <br><br>
+
+        <label for="age"><b>Age:</b></label>
+        <br>
+        <input id="age" type="number" placeholder="Enter Age" required min="18" max="50">
+        <hr>
+
+        <h2>Gender</h2>
+        <input name="Gender" type="radio" value="Male">Male<br>
+        <input name="Gender" type="radio" value="Female">Female<br>
+        <input name="Gender" type="radio" value="Other">Other
+
+        <h2>Position Applying For</h2>
+        <label for="position">Roles:</label>
+        <select id="position">
+            <option value="None" selected>None</option>
+            <option value="Python Developer">Python Developer</option>
+            <option value="Web Developer">Web Developer</option>
+            <option value="Data Analyst">Data Analyst</option>
+            <option value="Full Stack Developer">Full Stack Developer</option>
+        </select>
+
+        <h2>Skills</h2>
+        <input name="Skills" type="checkbox" value="Python">Python<br>
+        <input name="Skills" type="checkbox" value="HTML">HTML<br>
+        <input name="Skills" type="checkbox" value="CSS">CSS<br>
+        <input name="Skills" type="checkbox" value="JavaScript">JavaScript<br>
+        <input name="Skills" type="checkbox" value="SQL">SQL<br>
+
+        <h2>Experience Level</h2>
+        <b>Rate yourself from 1 to 10:</b><br>
+        <input type="range" min="1" max="10">
+        <br>
+
+        <h3>Upload Resume:</h3>
+        <input type="file" accept=".pdf"><br>
+
+        <h3>About Yourself:</h3>
+        <textarea cols="50" rows="8" placeholder="Tell About Yourself..."></textarea>
+
+        <br><br>
+
+        <input type="submit" value="Submit Application">
+        <input type="reset" value="Reset Form">
+    </form>
+
+
+</body>
+
+</html>
