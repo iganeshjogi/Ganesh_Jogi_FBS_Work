@@ -13,7 +13,7 @@ This repository documents my learning journey in programming, web development, d
 
 ### Database
 - MySQL
-
+  
 ### Web Development
 - HTML
 - CSS
